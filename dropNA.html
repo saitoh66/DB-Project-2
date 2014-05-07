@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <head>
+        <link href="CS355-Lab14.css" rel="stylesheet">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript">
+        
+            // Once the HTML has loaded, link javascript functions to HTML elements
+            $(document).ready(function () {
+            
+                // Populate Drop Down Menu with users from MySQL
+                $.ajax({
+                    url: "users/selectNA",
+                    type: "POST",
+                    contentType: "application/json",
+                    processData: false,
+                    complete: function (data) {
+                        $('div#users').html(data.responseText);
+                    }
+                });
+            
+                // Retrieve data from MySQL for a specific user
+                $('#user-submit').click(function () {
+                    var payload = {
+                        id: $('#user-list').val(),
+                    };
+                    
+                    $.ajax({
+                        url: "/userNA",
+                        type: "POST",
+                        contentType: "application/json",
+                        processData: false,
+                        data: JSON.stringify(payload),
+                        complete: function (data) {
+                            $('#output').html(data.responseText);
+                        }
+                    });
+                });
+            });
+        </script>
+    </head>
+    <div id="container">
+	<div id="header" >
+        <h1>Drop Down Player Menu (North America)</h1></div>
+	<div id="menu" >
+    <b>Menu</b><br>
+    <a href="../">Home Page</a><br />
+	Create Account: <br />
+    <a href="/createuserAsia/">Asia</a><br />
+	<a href="/createuserNA/">North America</a><br />
+	<a href="/createuserSA/">South America</a><br />
+	<a href="/createuserEU/">Europe</a><br />
+	Find a User: <br />
+    <a href="/getuserAsia/">Asia</a> <br />
+	<a href="/getuserNA/">North America</a> <br />
+	<a href="/getuserSA/">South America</a> <br />
+	<a href="/getuserEU/">Europe</a> <br />
+	Drop Down: <br />
+    <a href="/dropAsia.html">Asia</a> <br />
+	<a href="/dropEU.html">Europe</a> <br />
+	<a href="/dropNA.html">North America</a> <br />
+	<a href="/dropSA.html">South America</a> <br />
+	Changing Player Names: <br />
+	<a href="/updateAsia">Asia</a> <br />
+	<a href="/updateEU">Europe</a> <br />
+	<a href="/updateNA">North America</a> <br />
+	<a href="/updateSA">South America</a> <br />
+	All Players:
+    <a href="/users/table">World-wide Roster</a> <br />
+    <a href="/about">About Us</a> <br />
+    </div>
+	<div id="content" >
+        <h3>Select a player to see their stats</h3>
+        <div id="users"></div>
+        <input id="user-submit" type="submit" />
+        <p id="output"></p>
+		
+	</div>
+	<div id="footer">
+		Copyright &copy; Nate Danos</div>
+	</div>	
+    </body>
+</html>
